@@ -4,7 +4,7 @@ labels: bug
 ---
 Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}.
 This is the payload:
-{{ payload }}
+{{ JSON.stringify(payload) }}
 {{ tools.context.actor }} was trying to push/PR to {{ tools.context.repo }}... but something went wrong...
 
 This issue was automatically created by the GitHub Action workflow {{ tools.context.workflow }}**. \n\n The commit hash was: {{ tools.context.sha }} at {{ tools.context.ref }}.
