@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v1
         with: 
           node-version: "16.3"
-      - run: npm CI
+      - run: npm ci
       - name: Create a Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: npx semantic-release
