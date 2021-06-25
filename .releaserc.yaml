@@ -1,4 +1,7 @@
-release:
-  branches:
-    - main
-  repositoryUrl: https://github.com/dsmdavid/boilerplate-container-action
+branches:
+  - main
+repositoryUrl: https://github.com/dsmdavid/boilerplate-container-action
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
+  - "@semantic-release/github"
