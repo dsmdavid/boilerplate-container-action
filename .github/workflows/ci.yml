@@ -1,0 +1,40 @@
+name: CI
+on: 
+  pull_request:
+    branches: [develop, master]
+  push:
+    branches: [develop, master]  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v2
+      - name: Cache node-modules
+        uses: actions/cache@v1
+        with: 
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Use NodeJS
+        uses: actions/setup-node@v1
+        with: 
+          node-version: "16.3"
+      - run: npm CI
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx semantic-release
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: test_failure
+        run: exit 1
+      - name: Create Issue and Comment if failure
+        if: failure() && github.ref == 'refs/heads/develop'
+        uses: JasonEtco/create-an-issue@v2.4.0
+        id: create-issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/issue-template-failed-merge.md
+          assignees: ${{ github.event.pull_request.user.login }}
