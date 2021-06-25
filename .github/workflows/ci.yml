@@ -29,7 +29,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: test_failure
         run: exit 1
-
   # create-issue:
   #   runs-on: ubuntu-latest
   #   if: always()
